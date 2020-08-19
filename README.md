@@ -1,3 +1,3 @@
 # ESPHome Configs
 
-A collection of ESPHome configuration files.
+A collection of ESPHome configuration files we use.
