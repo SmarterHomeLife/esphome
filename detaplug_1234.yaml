@@ -1,0 +1,75 @@
+substitutions:
+  devicename: detaplug_1234
+  name: Appliance
+  hotspot: Appliance WiFi
+  password: Password!
+#  static_ip: 10.0.0.XX
+
+esphome:
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret ssid
+  password: !secret psk
+  fast_connect: on
+#  manual_ip:
+#    static_ip: $static_ip
+#    gateway: 10.0.0.1
+#    subnet: 255.255.255.0
+
+  ap:
+    ssid: $hotspot
+    password: $password
+
+captive_portal:
+
+web_server:
+  port: 80
+
+logger:
+
+api:
+  password: !secret api_pwd
+
+ota:
+  password: !secret api_pwd
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: $name IP Address
+
+binary_sensor:
+  - platform: status
+    name: $name Status
+
+  - platform: gpio
+    pin: GPIO1
+    name: $name Button
+    on_press:
+      - switch.toggle: relay
+
+sensor:
+  - platform: wifi_signal
+    name: $name WiFi Signal
+    update_interval: 60s
+
+switch:
+- platform: gpio
+  name: $name
+  pin: GPIO14
+  id: relay
+
+  on_turn_on:
+    - switch.turn_on: led
+
+  on_turn_off:
+    - switch.turn_off: led
+
+- platform: gpio
+  name: $name LED
+  id: led
+  pin: GPIO13
+  inverted: True
