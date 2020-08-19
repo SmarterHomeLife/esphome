@@ -1,0 +1,103 @@
+substitutions:
+  devicename: powerboard_1234
+  name: Powerboard
+  hotspot: Powerboard WiFi
+  password: Password!
+#  static_ip: 10.0.0.XX
+
+esphome:
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret ssid
+  password: !secret psk
+  fast_connect: on
+#  manual_ip:
+#    static_ip: $static_ip
+#    gateway: 10.0.0.1
+#    subnet: 255.255.255.0
+
+  ap:
+    ssid: $hotspot
+    password: $password
+
+captive_portal:
+
+web_server:
+  port: 80
+
+logger:
+
+api:
+  password: !secret api_pwd
+
+ota:
+  password: !secret api_pwd
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: $name IP Address
+
+sensor:
+  - platform: wifi_signal
+    name: $name WiFi Signal
+    update_interval: 60s
+
+status_led:
+  pin:
+    number: GPIO1
+    inverted: true
+
+binary_sensor:
+  - platform: status
+    name: $name Status
+
+  - platform: gpio
+    name: $name Button
+    pin:
+      number: GPIO3
+      mode: INPUT_PULLUP
+      inverted: true
+
+    on_press:
+      then:
+        if:
+          condition:
+            lambda: return id(relay1).state || id(relay2).state || id(relay3).state || id(relay4).state;
+          then:
+            # At least one socket is on.  Turn off all sockets.
+            - switch.turn_off: relay1
+            - switch.turn_off: relay2
+            - switch.turn_off: relay3
+            - switch.turn_off: relay4
+          else:
+            # No sockets are on.  Turn on all sockets.
+            - switch.turn_on: relay1
+            - switch.turn_on: relay2
+            - switch.turn_on: relay3
+            - switch.turn_on: relay4
+
+switch:
+  - platform: gpio
+    name: $name Relay 1
+    pin: GPIO5
+    inverted: false
+    id: relay1
+  - platform: gpio
+    name: $name Relay 2
+    pin: GPIO4
+    inverted: false
+    id: relay2
+  - platform: gpio
+    name: $name Relay 3
+    pin: GPIO13
+    inverted: false
+    id: relay3
+  - platform: gpio
+    name: $name Relay 4
+    pin: GPIO12
+    inverted: false
+    id: relay4
