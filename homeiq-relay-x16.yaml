@@ -1,0 +1,203 @@
+substitutions:
+  devicename: "homeiq-relay-x16"
+  name: "HomeIQ Relay x16"
+  project_name: "homeiq.relay-x16"
+  project_version: "1.0"
+
+esphome:
+  name: "${devicename}"
+  name_add_mac_suffix: true
+  platform: ESP8266
+  board: d1_mini
+  project:
+    name: "${project_name}"
+    version: "${project_version}"
+
+api:
+
+ota:
+
+logger:
+
+web_server:
+  port: 80
+
+wifi:
+  ap: {} # This spawns an AP with the device name and mac address with no password.
+
+captive_portal:
+
+dashboard_import:
+  package_import_url: github://SmarterHomeLife/esphome/homeiq-relay-x16.yaml
+
+binary_sensor:
+  - platform: status
+    name: "${name} Status"
+
+sensor:
+  - platform: uptime
+    name: "${name} Uptime Sensor"
+
+  - platform: wifi_signal
+    name: "${name} WiFi Signal"
+    update_interval: 60s
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "${name} IP Address"
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  id: bus_a
+  
+mcp23017:
+  - id: 'relays'
+    address: 0x20
+  
+switch:
+  - platform: gpio
+    name: "${name} - 1"
+    id: relay_1
+    pin:
+      mcp23xxx: relays
+      number: 0
+      mode: OUTPUT
+      inverted: true
+  
+  - platform: gpio
+    name: "${name} - 2"
+    id: relay_2
+    pin:
+      mcp23xxx: relays
+      number: 1
+      mode: OUTPUT
+      inverted: true
+  
+  - platform: gpio
+    name: "${name} - 3"
+    id: relay_3
+    pin:
+      mcp23xxx: relays
+      number: 2
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 4"
+    id: relay_4
+    pin:
+      mcp23xxx: relays
+      number: 3
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 5"
+    id: relay_5
+    pin:
+      mcp23xxx: relays
+      number: 4
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 6"
+    id: relay_6
+    pin:
+      mcp23xxx: relays
+      number: 5
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 7"
+    id: relay_7
+    pin:
+      mcp23xxx: relays
+      number: 6
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 8"
+    id: relay_8
+    pin:
+      mcp23xxx: relays
+      number: 7
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 9"
+    id: relay_9
+    pin:
+      mcp23xxx: relays
+      number: 8
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 10"
+    id: relay_10
+    pin:
+      mcp23xxx: relays
+      number: 9
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 11"
+    id: relay_11
+    pin:
+      mcp23xxx: relays
+      number: 10
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 12"
+    id: relay_12
+    pin:
+      mcp23xxx: relays
+      number: 11
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 13"
+    id: relay_13
+    pin:
+      mcp23xxx: relays
+      number: 12
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 14"
+    id: relay_14
+    pin:
+      mcp23xxx: relays
+      number: 13
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 15"
+    id: relay_15
+    pin:
+      mcp23xxx: relays
+      number: 14
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    name: "${name} - 16"
+    id: relay_16
+    pin:
+      mcp23xxx: relays
+      number: 15
+      mode: OUTPUT
+      inverted: true
