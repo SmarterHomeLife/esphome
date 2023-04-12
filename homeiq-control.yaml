@@ -1,0 +1,893 @@
+substitutions:
+  devicename: homeiq-control
+  name: HomeIQ Control
+  project_name: "homeiq.control"
+  project_version: "1.0"
+#  static_ip: 10.0.4.11
+
+esphome:
+  name: $devicename
+  name_add_mac_suffix: true
+  project:
+    name: "${project_name}"
+    version: "${project_version}"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+dashboard_import:
+  package_import_url: github://SmarterHomeLife/esphome/homeiq-control.yaml
+
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO17_OUT
+  phy_addr: 0
+  power_pin: GPIO5
+
+#  manual_ip:
+#    static_ip: $static_ip
+#    gateway: 10.0.4.1
+#    subnet: 255.255.255.0
+  use_address: $devicename.local
+
+web_server:
+  port: 80
+
+logger:
+
+api:
+  encryption:
+    key: !secret esphome-key
+  reboot_timeout: 0s
+
+ota:
+  password: !secret api-pwd
+
+i2c:
+  - id: iqlink_1
+    sda: GPIO13
+    scl: GPIO16
+    scan: true
+
+button:
+  - platform: restart
+    name: $name Restart
+
+text_sensor:
+  - platform: ethernet_info
+    ip_address:
+      name: $name IP Address
+  
+mcp23017:
+  - i2c_id: iqlink_1
+    id: buttons1
+    address: 0x20
+  - i2c_id: iqlink_1
+    id: buttons2
+    address: 0x21
+  - i2c_id: iqlink_1
+    id: buttons3
+    address: 0x22
+  - i2c_id: iqlink_1
+    id: buttons4
+    address: 0x23
+  - i2c_id: iqlink_1
+    id: relays1
+    address: 0x24
+  - i2c_id: iqlink_1
+    id: relays2
+    address: 0x25
+
+
+binary_sensor:
+  - platform: status
+    name: $name Status
+
+#
+  - platform: gpio
+    name: Button 1.1
+    pin:
+      mcp23xxx: buttons1
+      number: 0
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 1.2
+    pin:
+      mcp23xxx: buttons1
+      number: 1
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 1.3
+    pin:
+      mcp23xxx: buttons1
+      number: 2
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 1.4
+    pin:
+      mcp23xxx: buttons1
+      number: 3
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 2.1
+    pin:
+      mcp23xxx: buttons1
+      number: 4
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 2.2
+    pin:
+      mcp23xxx: buttons1
+      number: 5
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 2.3
+    pin:
+      mcp23xxx: buttons1
+      number: 6
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 2.4
+    pin:
+      mcp23xxx: buttons1
+      number: 7
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 3.1
+    pin:
+      mcp23xxx: buttons1
+      number: 8
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 3.2
+    pin:
+      mcp23xxx: buttons1
+      number: 9
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 3.3
+    pin:
+      mcp23xxx: buttons1
+      number: 10
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 3.4
+    pin:
+      mcp23xxx: buttons1
+      number: 11
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 4.1
+    pin:
+      mcp23xxx: buttons1
+      number: 12
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 4.2
+    pin:
+      mcp23xxx: buttons1
+      number: 13
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 4.3
+    pin:
+      mcp23xxx: buttons1
+      number: 14
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 4.4
+    pin:
+      mcp23xxx: buttons1
+      number: 15
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 5.1
+    pin:
+      mcp23xxx: buttons2
+      number: 0
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 5.2
+    pin:
+      mcp23xxx: buttons2
+      number: 1
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 5.3
+    pin:
+      mcp23xxx: buttons2
+      number: 2
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 5.4
+    pin:
+      mcp23xxx: buttons2
+      number: 3
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 6.1
+    pin:
+      mcp23xxx: buttons2
+      number: 4
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 6.2
+    pin:
+      mcp23xxx: buttons2
+      number: 5
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 6.3
+    pin:
+      mcp23xxx: buttons2
+      number: 6
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 6.4
+    pin:
+      mcp23xxx: buttons2
+      number: 7
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 7.1
+    pin:
+      mcp23xxx: buttons2
+      number: 8
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 7.2
+    pin:
+      mcp23xxx: buttons2
+      number: 9
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 7.3
+    pin:
+      mcp23xxx: buttons2
+      number: 10
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 7.4
+    pin:
+      mcp23xxx: buttons2
+      number: 11
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 8.1
+    pin:
+      mcp23xxx: buttons2
+      number: 12
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 8.2
+    pin:
+      mcp23xxx: buttons2
+      number: 13
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 8.3
+    pin:
+      mcp23xxx: buttons2
+      number: 14
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 8.4
+    pin:
+      mcp23xxx: buttons2
+      number: 15
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 9.1
+    pin:
+      mcp23xxx: buttons3
+      number: 0
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 9.2
+    pin:
+      mcp23xxx: buttons3
+      number: 1
+      mode: INPUT_PULLUP
+      inverted: True
+        
+  - platform: gpio
+    name: Button 9.3
+    pin:
+      mcp23xxx: buttons3
+      number: 2
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 9.4
+    pin:
+      mcp23xxx: buttons3
+      number: 3
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 10.1
+    pin:
+      mcp23xxx: buttons3
+      number: 4
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 10.2
+    pin:
+      mcp23xxx: buttons3
+      number: 5
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 10.3
+    pin:
+      mcp23xxx: buttons3
+      number: 6
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 10.4
+    pin:
+      mcp23xxx: buttons3
+      number: 7
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 11.1
+    pin:
+      mcp23xxx: buttons3
+      number: 8
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 11.2
+    pin:
+      mcp23xxx: buttons3
+      number: 9
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 11.3
+    pin:
+      mcp23xxx: buttons3
+      number: 10
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 11.4
+    pin:
+      mcp23xxx: buttons3
+      number: 11
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 12.1
+    pin:
+      mcp23xxx: buttons3
+      number: 12
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 12.2
+    pin:
+      mcp23xxx: buttons3
+      number: 13
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 12.3
+    pin:
+      mcp23xxx: buttons3
+      number: 14
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 12.4
+    pin:
+      mcp23xxx: buttons3
+      number: 15
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 13.1
+    pin:
+      mcp23xxx: buttons4
+      number: 0
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 13.2
+    pin:
+      mcp23xxx: buttons4
+      number: 1
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 13.3
+    pin:
+      mcp23xxx: buttons4
+      number: 2
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 13.4
+    pin:
+      mcp23xxx: buttons4
+      number: 3
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 14.1
+    pin:
+      mcp23xxx: buttons4
+      number: 4
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 14.2
+    pin:
+      mcp23xxx: buttons4
+      number: 5
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 14.3
+    pin:
+      mcp23xxx: buttons4
+      number: 6
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 14.4
+    pin:
+      mcp23xxx: buttons4
+      number: 7
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 15.1
+    pin:
+      mcp23xxx: buttons4
+      number: 8
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 15.2
+    pin:
+      mcp23xxx: buttons4
+      number: 9
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 15.3
+    pin:
+      mcp23xxx: buttons4
+      number: 10
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 15.4
+    pin:
+      mcp23xxx: buttons4
+      number: 11
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+#
+  - platform: gpio
+    name: Button 16.1
+    pin:
+      mcp23xxx: buttons4
+      number: 12
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 16.2
+    pin:
+      mcp23xxx: buttons4
+      number: 13
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 16.3
+    pin:
+      mcp23xxx: buttons4
+      number: 14
+      mode: INPUT_PULLUP
+      inverted: True
+
+  - platform: gpio
+    name: Button 16.4
+    pin:
+      mcp23xxx: buttons4
+      number: 15
+      mode: INPUT_PULLUP
+      inverted: True
+
+
+switch:
+  - platform: restart
+    id: restart_switch
+    name: $name Restart
+
+  - platform: gpio
+    name: Relay 1
+    id: relay1
+    pin:
+      mcp23xxx: relays1
+      number: 0
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 2
+    id: relay2
+    pin:
+      mcp23xxx: relays1
+      number: 1
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 3
+    id: relay3
+    pin:
+      mcp23xxx: relays1
+      number: 2
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 4
+    id: relay4
+    pin:
+      mcp23xxx: relays1
+      number: 3
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 5
+    id: relay5
+    pin:
+      mcp23xxx: relays1
+      number: 4
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 6
+    id: relay6
+    pin:
+      mcp23xxx: relays1
+      number: 5
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 7
+    id: relay7
+    pin:
+      mcp23xxx: relays1
+      number: 6
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 8
+    id: relay8
+    pin:
+      mcp23xxx: relays1
+      number: 7
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 9
+    id: relay9
+    pin:
+      mcp23xxx: relays1
+      number: 8
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 10
+    id: relay10
+    pin:
+      mcp23xxx: relays1
+      number: 9
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 11
+    id: relay11
+    pin:
+      mcp23xxx: relays1
+      number: 10
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 12
+    id: relay12
+    pin:
+      mcp23xxx: relays1
+      number: 11
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 13
+    id: relay13
+    pin:
+      mcp23xxx: relays1
+      number: 12
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 14
+    id: relay14
+    pin:
+      mcp23xxx: relays1
+      number: 13
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 15
+    id: relay15
+    pin:
+      mcp23xxx: relays1
+      number: 14
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 16
+    id: relay16
+    pin:
+      mcp23xxx: relays1
+      number: 15
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 17
+    id: relay17
+    pin:
+      mcp23xxx: relays2
+      number: 0
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 18
+    id: relay18
+    pin:
+      mcp23xxx: relays2
+      number: 1
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 19
+    id: relay19
+    pin:
+      mcp23xxx: relays2
+      number: 2
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 20
+    id: relay20
+    pin:
+      mcp23xxx: relays2
+      number: 3
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 21
+    id: relay21
+    pin:
+      mcp23xxx: relays2
+      number: 4
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 22
+    id: relay22
+    pin:
+      mcp23xxx: relays2
+      number: 5
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 23
+    id: relay23
+    pin:
+      mcp23xxx: relays2
+      number: 6
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 24
+    id: relay24
+    pin:
+      mcp23xxx: relays2
+      number: 7
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 25
+    id: relay25
+    pin:
+      mcp23xxx: relays2
+      number: 8
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 26
+    id: relay26
+    pin:
+      mcp23xxx: relays2
+      number: 9
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 27
+    id: relay27
+    pin:
+      mcp23xxx: relays2
+      number: 10
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 28
+    id: relay28
+    pin:
+      mcp23xxx: relays2
+      number: 11
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 29
+    id: relay29
+    pin:
+      mcp23xxx: relays2
+      number: 12
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 30
+    id: relay30
+    pin:
+      mcp23xxx: relays2
+      number: 13
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 31
+    id: relay31
+    pin:
+      mcp23xxx: relays2
+      number: 14
+      mode: OUTPUT
+
+  - platform: gpio
+    name: Relay 32
+    id: relay32
+    pin:
+      mcp23xxx: relays2
+      number: 15
+      mode: OUTPUT
